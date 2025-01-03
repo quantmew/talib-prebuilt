@@ -56,7 +56,7 @@ jobs:
           CIBW_ENVIRONMENT_LINUX : >
             TA_LIBRARY_PATH="ta-lib-${{ env.TALIB_C_VER }}/_build"
             TA_INCLUDE_PATH="ta-lib-${{ env.TALIB_C_VER }}/include"
-            LD_LIBRARY_PATH=$TA_LIBRARY_PATH:$LD_LIBRARY_PATH
+            LD_LIBRARY_PATH="ta-lib-${{ env.TALIB_C_VER }}/_build:$LD_LIBRARY_PATH"
             PIP_NO_BUILD_ISOLATION=false
       - name: Set wheel name
         run: |
