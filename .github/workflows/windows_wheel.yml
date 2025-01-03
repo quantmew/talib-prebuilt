@@ -52,7 +52,7 @@ jobs:
             PIP_NO_BUILD_ISOLATION=false
       - name: Set wheel name
         run: |
-          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-cp${PY_VER//./}-cp${PY_VER//./}-win_amd64.whl" >> $GITHUB_ENV
+          echo ("WHEEL_NAME=" + "ta_lib-" + $env:TALIB_PY_VER + "-cp" + $env:PY_VER.replace('.', '') + "-cp" + $env:PY_VER.replace('.', '') + "-win_amd64.whl") >> $env:GITHUB_ENV
       - name: Upload wheel
         uses: actions/upload-artifact@v4
         with:
@@ -91,7 +91,7 @@ jobs:
             PIP_NO_BUILD_ISOLATION=false
       - name: Set wheel name
         run: |
-          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-cp${PY_VER//./}-cp${PY_VER//./}-win32.whl" >> $GITHUB_ENV
+          echo ("WHEEL_NAME=" + "ta_lib-" + $env:TALIB_PY_VER + "-cp" + $env:PY_VER.replace('.', '') + "-cp" + $env:PY_VER.replace('.', '') + "-win32.whl") >> $env:GITHUB_ENV
       - name: Upload wheel
         uses: actions/upload-artifact@v4
         with:
