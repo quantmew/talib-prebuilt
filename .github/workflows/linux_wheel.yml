@@ -47,7 +47,9 @@ jobs:
       - name: Make script executable
         run: chmod +x build_linux.sh
       - name: Build TA-Lib
-        run: ./build_linux.sh
+        run: |
+          ./build_linux.sh
+          ls -la ta-lib-${{ env.TALIB_C_VER }}/_build
         shell: bash
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
