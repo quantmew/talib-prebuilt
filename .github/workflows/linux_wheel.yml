@@ -36,7 +36,10 @@ jobs:
           gcc --version
           g++ --version
           cmake --version
-      - run: ./build_linux.sh
+      - name: Make script executable
+        run: chmod +x build_linux.sh
+      - name: Build TA-Lib
+        run: ./build_linux.sh
         shell: bash
       - uses: pypa/cibuildwheel@v2.22.0
         env:
