@@ -25,6 +25,17 @@ jobs:
       matrix:
         os: [ubuntu-22.04]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install GCC and CMake
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc g++ cmake
+      - name: Verify GCC and CMake
+        run: |
+          gcc --version
+          g++ --version
+          cmake --version
       - run: ./build_linux.sh
         shell: bash
       - uses: pypa/cibuildwheel@v2.22.0
