@@ -5,7 +5,7 @@ on:
 
 env:
   TALIB_C_VER: 0.6.2
-  TALIB_PY_VER: 0.5.2
+  TALIB_PY_VER: 0.6.0
   PIP_NO_VERIFY: 0
   PIP_VERBOSE: 1
   CIBW_BUILD_VERBOSITY: 2
@@ -16,26 +16,83 @@ env:
     pytest --rootdir=C: -k "not RSI and not threading" {project}/tests
   CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
   CIBW_SKIP: "pp* cp36*"
-  MSBUILDTREATHIGHERTOOLSVERSIONASCURRENT: 1
 
 jobs:
-  build_amd64:
-    name: Build AMD64 wheels
-    runs-on: ${{ matrix.os }}
+  build_x86_64:
+    name: Build MacOS x86_64 wheels
     strategy:
       matrix:
-        os: [ubuntu-22.04]
+        os: [macos-14-large]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+    runs-on: ${{ matrix.os }}
     steps:
-      - run: build_linux.sh
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Get MacOS version
+        run: | 
+          MACOS_VERSION=$(sw_vers -productVersion | cut -d. -f1,2 | tr . _)
+          echo "MACOS_VERSION=${MACOS_VERSION}" >> $GITHUB_ENV
+      - name: Install Xcode Command Line Tools
+        run: xcode-select --install
+      - name: Install Homebrew
+        run: |
+          /bin/bash
+      - name: Make script executable
+        run: chmod +x build_macos.sh
+      - name: Build TA-Lib
+        run: ./build_macos.sh
         shell: bash
-      - uses: pypa/cibuildwheel@v2.22.0
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.22.0
         env:
-          CIBW_ARCHS_LINUX: AMD64
-          CIBW_ENVIRONMENT_LINUX : >
-            TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER\\_build;$LIB"
-            TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER\\include;$INCLUDE"
+          CIBW_ARCHS_MACOS: x86_64
+          CIBW_ENVIRONMENT_MACOS : >
+            TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER/_build;$LIB"
+            TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER/include;$INCLUDE"
             PIP_NO_BUILD_ISOLATION=false
-      - uses: actions/upload-artifact@v4
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        env:
+          WHEEL_NAME: "ta_lib-${TALIB_PY_VER}-cp${PY_VER//./}-cp${PY_VER//./}-macos_${MACOS_VERSION//./_}_x86_64.whl"
         with:
           path: ./wheelhouse/*.whl
-          name: wheels-linux-x64
+          name: ${{ env.WHEEL_NAME }}
+  build_arm64:
+    name: Build MacOS arm64 wheels
+    strategy:
+      matrix:
+        os: [macos-14-xlarge]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Get MacOS version
+        run: | 
+          MACOS_VERSION=$(sw_vers -productVersion | cut -d. -f1,2 | tr . _)
+          echo "MACOS_VERSION=${MACOS_VERSION}" >> $GITHUB_ENV
+      - name: Install Xcode Command Line Tools
+        run: xcode-select --install
+      - name: Install Homebrew
+        run: |
+          /bin/bash
+      - name: Make script executable
+        run: chmod +x build_macos.sh
+      - name: Build TA-Lib
+        run: ./build_macos.sh
+        shell: bash
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.22.0
+        env:
+          CIBW_ARCHS_MACOS: ARM64
+          CIBW_ENVIRONMENT_MACOS : >
+            TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER/_build;$LIB"
+            TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER/include;$INCLUDE"
+            PIP_NO_BUILD_ISOLATION=false
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        env:
+          WHEEL_NAME: "ta_lib-${TALIB_PY_VER}-cp${PY_VER//./}-cp${PY_VER//./}-macosx_${MACOS_VERSION//./_}_arm64.whl"
+        with:
+          path: ./wheelhouse/*.whl
+          name: ${{ env.WHEEL_NAME }}

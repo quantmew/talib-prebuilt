@@ -20,13 +20,21 @@ env:
 jobs:
   build_x86_64:
     name: Build Linux x86_64 wheels
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04]
+        os: ["ubuntu-20.04", "ubuntu-22.04", "ubuntu-24.04"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+    runs-on: ${{ matrix.os }}
+    env:
+      PY_VER: ${{matrix.python-version}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Capture ldd version
+        id: ldd_version
+        run: |
+          LDD_VERSION=$(ldd --version | head -n 1 | awk '{print $NF}')
+          echo "LDD_VERSION=${LDD_VERSION}" >> $GITHUB_ENV
       - name: Install GCC and CMake
         run: |
           sudo apt-get update
@@ -41,14 +49,18 @@ jobs:
       - name: Build TA-Lib
         run: ./build_linux.sh
         shell: bash
-      - uses: pypa/cibuildwheel@v2.22.0
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.22.0
         env:
           CIBW_ARCHS_LINUX: AMD64
           CIBW_ENVIRONMENT_LINUX : >
             TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER/_build;$LIB"
             TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER/include;$INCLUDE"
             PIP_NO_BUILD_ISOLATION=false
-      - uses: actions/upload-artifact@v4
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        env:
+          WHEEL_NAME: "ta_lib-${TALIB_PY_VER}-cp${PY_VER//./}-cp${PY_VER//./}-manylinux_${LDD_VERSION//./_}_x86_64.whl"
         with:
           path: ./wheelhouse/*.whl
-          name: wheels-linux-x64
+          name: ${{ env.WHEEL_NAME }}

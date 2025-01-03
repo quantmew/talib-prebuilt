@@ -2,7 +2,6 @@
 
 # TALIB_C_VER=0.6.2
 # TALIB_PY_VER=0.5.2
-
 CMAKE_GENERATOR="Unix Makefiles"
 CMAKE_BUILD_TYPE=Release
 CMAKE_CONFIGURATION_TYPES=Release
@@ -22,14 +21,14 @@ if [ $? -ne 0 ]; then
 fi
 
 # Unzip TA-Lib C
-unzip -q talib-c.zip
+tar -xzvf talib-c.zip
 if [ $? -ne 0 ]; then
     echo "Failed to extract TA-Lib C library"
     exit 1
 fi
 
 # Unzip TA-Lib Python
-unzip -q talib-python.zip -d ta-lib-python
+tar -xf talib-python.zip --strip-components=1
 if [ $? -ne 0 ]; then
     echo "Failed to extract TA-Lib Python library"
     exit 1
@@ -38,11 +37,10 @@ fi
 # cd to TA-Lib C
 cd ta-lib-${TALIB_C_VER}
 
-# Create include, and copy headers
-mkdir -p include/ta-lib
+# Copy TA-Lib C headers to TA-Lib Python
 cp include/*.h include/ta-lib/
 
-# Create build fodler
+# Create build directory
 mkdir -p _build
 cd _build
 
@@ -60,7 +58,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Copy the lib
-cp libta_lib.a ../ta-lib.lib
+cp libta-lib.a ./ta-lib.a
 
 echo "TA-Lib build completed successfully!"

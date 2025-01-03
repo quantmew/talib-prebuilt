@@ -21,14 +21,14 @@ if [ $? -ne 0 ]; then
 fi
 
 # Unzip TA-Lib C
-unzip -q talib-c.zip
+tar -xzvf talib-c.zip
 if [ $? -ne 0 ]; then
     echo "Failed to extract TA-Lib C library"
     exit 1
 fi
 
 # Unzip TA-Lib Python
-unzip -q talib-python.zip -d ta-lib-python
+tar -xf talib-python.zip --strip-components=1
 if [ $? -ne 0 ]; then
     echo "Failed to extract TA-Lib Python library"
     exit 1
