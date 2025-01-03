@@ -52,7 +52,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
         env:
-          CIBW_ARCHS_LINUX: AMD64
+          CIBW_ARCHS_LINUX: x86_64
           CIBW_ENVIRONMENT_LINUX : >
             TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER/_build;$LIB"
             TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER/include;$INCLUDE"
