@@ -19,8 +19,8 @@ env:
   MSBUILDTREATHIGHERTOOLSVERSIONASCURRENT: 1
 
 jobs:
-  build_amd64:
-    name: Build AMD64 wheels
+  build_x86_64:
+    name: Build Windows x86_64 wheels
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -44,7 +44,7 @@ jobs:
           path: ./wheelhouse/*.whl
           name: wheels-win64
   build_x86:
-    name: Build x86 wheels
+    name: Build Windows x86 wheels
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

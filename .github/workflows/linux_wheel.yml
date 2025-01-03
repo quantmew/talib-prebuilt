@@ -5,7 +5,7 @@ on:
 
 env:
   TALIB_C_VER: 0.6.2
-  TALIB_PY_VER: 0.5.2
+  TALIB_PY_VER: 0.6.0
   PIP_NO_VERIFY: 0
   PIP_VERBOSE: 1
   CIBW_BUILD_VERBOSITY: 2
@@ -16,11 +16,10 @@ env:
     pytest --rootdir=C: -k "not RSI and not threading" {project}/tests
   CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
   CIBW_SKIP: "pp* cp36*"
-  MSBUILDTREATHIGHERTOOLSVERSIONASCURRENT: 1
 
 jobs:
-  build_amd64:
-    name: Build AMD64 wheels
+  build_x86_64:
+    name: Build Linux x86_64 wheels
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -32,8 +31,8 @@ jobs:
         env:
           CIBW_ARCHS_LINUX: AMD64
           CIBW_ENVIRONMENT_LINUX : >
-            TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER\\_build;$LIB"
-            TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER\\include;$INCLUDE"
+            TA_LIBRARY_PATH="/usr/local/lib/ta-lib;$LIB"
+            TA_INCLUDE_PATH="/usr/local/include/ta-lib;$INCLUDE"
             PIP_NO_BUILD_ISOLATION=false
       - uses: actions/upload-artifact@v4
         with:
