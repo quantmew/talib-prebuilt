@@ -45,8 +45,8 @@ jobs:
         env:
           CIBW_ARCHS_LINUX: AMD64
           CIBW_ENVIRONMENT_LINUX : >
-            TA_LIBRARY_PATH="/usr/local/lib/ta-lib;$LIB"
-            TA_INCLUDE_PATH="/usr/local/include/ta-lib;$INCLUDE"
+            TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER/_build;$LIB"
+            TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER/include;$INCLUDE"
             PIP_NO_BUILD_ISOLATION=false
       - uses: actions/upload-artifact@v4
         with:

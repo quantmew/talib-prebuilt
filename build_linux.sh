@@ -2,6 +2,9 @@
 
 # TALIB_C_VER=0.6.2
 # TALIB_PY_VER=0.5.2
+CMAKE_GENERATOR="Unix Makefiles"
+CMAKE_BUILD_TYPE=Release
+CMAKE_CONFIGURATION_TYPES=Release
 
 # Download TA-Lib C Library
 curl -L -o talib-c.zip https://github.com/TA-Lib/ta-lib/archive/refs/tags/v${TALIB_C_VER}.zip
@@ -34,20 +37,27 @@ fi
 # cd to TA-Lib C
 cd ta-lib-${TALIB_C_VER}
 
-# Configure TA-Lib
-./configure --prefix=/usr
+# Copy TA-Lib C headers to TA-Lib Python
+cp include/*.h include/ta-lib/
+
+# Create build directory
+mkdir -p _build
+cd _build
+
+# Use CMake to configure the build
+cmake -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ..
+if [ $? -ne 0 ]; then
+    echo "CMake configuration failed"
+    exit 1
+fi
 
 # Compile TA-Lib
 make
-
 if [ $? -ne 0 ]; then
     echo "Build failed"
     exit 1
 fi
 
-# Copy the lib
-sudo make install
-
-cp /usr/local/lib/ta-lib/libta_lib.a ./ta-lib.a
+cp libta-lib.a ./ta-lib.a
 
 echo "TA-Lib build completed successfully!"
