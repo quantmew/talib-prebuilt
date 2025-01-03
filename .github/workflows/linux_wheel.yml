@@ -54,8 +54,8 @@ jobs:
         env:
           CIBW_ARCHS_LINUX: x86_64
           CIBW_ENVIRONMENT_LINUX : >
-            TA_LIBRARY_PATH="ta-lib-${TALIB_C_VER}/_build;${LIB}"
-            TA_INCLUDE_PATH="ta-lib-${TALIB_C_VER}/include;${INCLUDE}"
+            TA_LIBRARY_PATH="ta-lib-${{ env.TALIB_C_VER }}/_build;$LIB"
+            TA_INCLUDE_PATH="ta-lib-${{ env.TALIB_C_VER }}/include;$INCLUDE"
             PIP_NO_BUILD_ISOLATION=false
       - name: Upload wheels
         uses: actions/upload-artifact@v4

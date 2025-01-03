@@ -44,8 +44,6 @@ cd ta-lib-${TALIB_C_VER}
 mkdir -p include/ta-lib/
 cp include/*.h include/ta-lib/
 
-ls -la ta-lib-${TALIB_C_VER}/include
-
 # Create build directory
 mkdir -p _build
 cd _build
