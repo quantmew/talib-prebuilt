@@ -62,6 +62,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-cp libta-lib.a ./ta-lib.a
+cp libta-lib.so ./libta-lib.so.${TALIB_C_VER}
 
 echo "TA-Lib build completed successfully!"
