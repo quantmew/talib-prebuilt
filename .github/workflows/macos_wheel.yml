@@ -89,10 +89,11 @@ jobs:
             TA_LIBRARY_PATH="ta-lib-${{ env.TALIB_C_VER }}/_build"
             TA_INCLUDE_PATH="ta-lib-${{ env.TALIB_C_VER }}/include"
             PIP_NO_BUILD_ISOLATION=false
+      - name: Set wheel name
+        run: |
+          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-cp${PY_VER//./}-cp${PY_VER//./}-macosx_${MACOS_VERSION//./_}_arm64.whl" >> $GITHUB_ENV
       - name: Upload wheels
         uses: actions/upload-artifact@v4
-        env:
-          WHEEL_NAME: "ta_lib-${TALIB_PY_VER}-cp${PY_VER//./}-cp${PY_VER//./}-macosx_${MACOS_VERSION//./_}_arm64.whl"
         with:
           path: ./wheelhouse/*.whl
           name: ${{ env.WHEEL_NAME }}
