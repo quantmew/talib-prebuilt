@@ -16,7 +16,6 @@ env:
     pytest --rootdir=C: -k "not RSI and not threading" {project}/tests
   CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
   CIBW_SKIP: "pp* cp36*"
-  LD_LIBRARY_PATH: "${{ github.workspace }}/ta-lib-install/lib"
 
 jobs:
   build_x86_64:
@@ -57,7 +56,8 @@ jobs:
           CIBW_ENVIRONMENT_LINUX : >
             TA_LIBRARY_PATH="ta-lib-install/lib"
             TA_INCLUDE_PATH="ta-lib-install/include"
-            PIP_NO_BUILD_ISOLATION=false
+            LD_LIBRARY_PATH="${{ github.workspace }}/ta-lib-install/lib"
+            PIP_NO_BUILD_ISOLATION=true
       - name: Set wheel name
         run: |
           echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-cp${PY_VER//./}-cp${PY_VER//./}-manylinux_${LDD_VERSION//./_}_x86_64.whl" >> $GITHUB_ENV
