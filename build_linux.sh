@@ -34,9 +34,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-mv ta-lib-python/* .
+mv ta-lib-python/ta-lib-python-TA_Lib-${TALIB_PY_VER}/* .
 rm -r ta-lib-python
-
 
 # cd to TA-Lib C
 cd ta-lib-${TALIB_C_VER}
