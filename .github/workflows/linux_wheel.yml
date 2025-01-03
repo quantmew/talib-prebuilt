@@ -49,6 +49,9 @@ jobs:
       - name: Build TA-Lib
         run: ./build_linux.sh
         shell: bash
+      - name: Set Library Path
+        run: |
+          echo "LD_LIBRARY_PATH=ta-lib-${{ env.TALIB_C_VER }}/_build:$LD_LIBRARY_PATH" >> $GITHUB_ENV
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
         env:
