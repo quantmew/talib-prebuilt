@@ -25,7 +25,7 @@ jobs:
       matrix:
         os: [ubuntu-22.04]
     steps:
-      - run: build_linux.sh
+      - run: ./build_linux.sh
         shell: bash
       - uses: pypa/cibuildwheel@v2.22.0
         env:
