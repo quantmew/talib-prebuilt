@@ -86,8 +86,8 @@ jobs:
         env:
           CIBW_ARCHS_MACOS: ARM64
           CIBW_ENVIRONMENT_MACOS : >
-            TA_LIBRARY_PATH="ta-lib-${{ env.TALIB_C_VER }}/_build"
-            TA_INCLUDE_PATH="ta-lib-${{ env.TALIB_C_VER }}/include"
+            TA_LIBRARY_PATH="${{ github.workspace }}/ta-lib-${{ env.TALIB_C_VER }}/_build"
+            TA_INCLUDE_PATH="${{ github.workspace }}/ta-lib-${{ env.TALIB_C_VER }}/include"
             PIP_NO_BUILD_ISOLATION=false
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: "auditwheel repair --lib-sdir ta-lib-${{ env.TALIB_C_VER }}/_build -w {dest_dir} {wheel}"
       - name: Set wheel name
