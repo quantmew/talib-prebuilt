@@ -58,8 +58,8 @@ jobs:
             TA_LIBRARY_PATH="ta-lib-install/lib"
             TA_INCLUDE_PATH="ta-lib-install/include"
             PIP_NO_BUILD_ISOLATION=false
-          CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
-            export LD_LIBRARY_PATH="ta-lib-install/lib"
+          CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
+            LD_LIBRARY_PATH="${{github.workspace}}/ta-lib-install/lib" &&
             auditwheel repair --lib-sdir . -w {dest_dir} {wheel}
       - name: Set wheel name
         run: |
