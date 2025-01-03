@@ -19,7 +19,7 @@ env:
 
 jobs:
   build_x86_64:
-    name: Build MacOS x86_64 ${{ matrix.python-version }} wheels
+    name: Build MacOS x86_64 Python ${{ matrix.python-version }} wheels
     strategy:
       matrix:
         os: [macos-14-large]
@@ -58,7 +58,7 @@ jobs:
           path: ./wheelhouse/*.whl
           name: ${{ env.WHEEL_NAME }}
   build_arm64:
-    name: Build MacOS arm64 ${{ matrix.python-version }} wheels
+    name: Build MacOS arm64 Python ${{ matrix.python-version }} wheels
     strategy:
       matrix:
         os: [macos-14-xlarge]

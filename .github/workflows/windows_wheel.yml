@@ -20,7 +20,7 @@ env:
 
 jobs:
   build_amd64:
-    name: Build Windows amd64 ${{ matrix.python-version }} wheels
+    name: Build Windows amd64 Python ${{ matrix.python-version }} wheels
     strategy:
       matrix:
         os: ["windows-2022"]
@@ -59,7 +59,7 @@ jobs:
           path: ./wheelhouse/*.whl
           name: ${{ env.WHEEL_NAME }}
   build_x86:
-    name: Build Windows x86 ${{ matrix.python-version }} wheels
+    name: Build Windows x86 Python ${{ matrix.python-version }} wheels
     strategy:
       matrix:
         os: ["windows-2022"]
