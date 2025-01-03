@@ -16,10 +16,11 @@ env:
     pytest --rootdir=C: -k "not RSI and not threading" {project}/tests
   CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
   CIBW_SKIP: "pp* cp36*"
+  LD_LIBRARY_PATH: "${{ github.workspace }}/ta-lib-install/lib"
 
 jobs:
   build_x86_64:
-    name: Build Linux x86_64 wheels
+    name: Build Linux x86_64 ${{ matrix.python-version }} wheels
     strategy:
       matrix:
         os: ["ubuntu-20.04", "ubuntu-22.04", "ubuntu-24.04"]
@@ -56,7 +57,6 @@ jobs:
           CIBW_ENVIRONMENT_LINUX : >
             TA_LIBRARY_PATH="ta-lib-install/lib"
             TA_INCLUDE_PATH="ta-lib-install/include"
-            LD_LIBRARY_PATH="${{ github.workspace }}/ta-lib-install/lib"
             PIP_NO_BUILD_ISOLATION=false
       - name: Set wheel name
         run: |
