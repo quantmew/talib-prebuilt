@@ -49,9 +49,6 @@ jobs:
       - name: Build TA-Lib
         run: ./build_linux.sh
         shell: bash
-      - name: Set Library Path
-        run: |
-          echo "LD_LIBRARY_PATH=ta-lib-${{ env.TALIB_C_VER }}/_build:$LD_LIBRARY_PATH" >> $GITHUB_ENV
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
         env:
@@ -59,8 +56,8 @@ jobs:
           CIBW_ENVIRONMENT_LINUX : >
             TA_LIBRARY_PATH="ta-lib-${{ env.TALIB_C_VER }}/_build"
             TA_INCLUDE_PATH="ta-lib-${{ env.TALIB_C_VER }}/include"
-            LD_LIBRARY_PATH="ta-lib-${{ env.TALIB_C_VER }}/_build:$LD_LIBRARY_PATH"
             PIP_NO_BUILD_ISOLATION=false
+          CIBW_REPAIR_WHEEL_COMMAND_LINUX: "auditwheel repair --lib-sdir ta-lib-${{ env.TALIB_C_VER }}/_build -w {dest_dir} {wheel}"
       - name: Set wheel name
         run: |
           echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-cp${PY_VER//./}-cp${PY_VER//./}-manylinux_${LDD_VERSION//./_}_x86_64.whl" >> $GITHUB_ENV
