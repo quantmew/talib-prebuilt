@@ -21,23 +21,27 @@ if [ $? -ne 0 ]; then
 fi
 
 # Unzip TA-Lib C
-tar -xzvf talib-c.zip
+unzip -q talib-c.zip
 if [ $? -ne 0 ]; then
     echo "Failed to extract TA-Lib C library"
     exit 1
 fi
 
 # Unzip TA-Lib Python
-tar -xf talib-python.zip --strip-components=1
+unzip -q talib-python.zip -d ta-lib-python
 if [ $? -ne 0 ]; then
     echo "Failed to extract TA-Lib Python library"
     exit 1
 fi
 
+mv ta-lib-python/ta-lib-python-TA_Lib-${TALIB_PY_VER}/* .
+rm -r ta-lib-python
+
 # cd to TA-Lib C
 cd ta-lib-${TALIB_C_VER}
 
 # Copy TA-Lib C headers to TA-Lib Python
+mkdir -p include/ta-lib/
 cp include/*.h include/ta-lib/
 
 # Create build directory

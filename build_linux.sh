@@ -41,6 +41,7 @@ rm -r ta-lib-python
 cd ta-lib-${TALIB_C_VER}
 
 # Copy TA-Lib C headers to TA-Lib Python
+mkdir -p include/ta-lib/
 cp include/*.h include/ta-lib/
 
 # Create build directory
