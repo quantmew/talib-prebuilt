@@ -9,7 +9,7 @@ env:
   PIP_NO_VERIFY: 0
   PIP_VERBOSE: 1
   CIBW_BUILD_VERBOSITY: 2
-  CIBW_BEFORE_BUILD: pip install setuptools==63.4.3&&pip install -U wheel numpy Cython
+  CIBW_BEFORE_BUILD: pip install setuptools<=63.4.3&&pip install -U wheel numpy Cython
   CIBW_TEST_REQUIRES: pytest pandas polars
   CIBW_TEST_COMMAND: >
     cd .. &&
@@ -22,7 +22,7 @@ jobs:
     name: Build Linux x86_64 wheels
     strategy:
       matrix:
-        os: ["ubuntu-20.04", "ubuntu-22.04", "ubuntu-24.04"]
+        os: ["ubuntu-22.04"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
