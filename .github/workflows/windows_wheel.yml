@@ -15,7 +15,7 @@ env:
     cd .. &&
     pytest --rootdir=C: -k "not RSI and not threading" {project}/tests
   CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
-  CIBW_SKIP: "pp* cp36*"
+  CIBW_SKIP: "pp*"
   MSBUILDTREATHIGHERTOOLSVERSIONASCURRENT: 1
 
 jobs:
