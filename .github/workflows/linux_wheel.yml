@@ -89,6 +89,7 @@ jobs:
           branch: v3.15
           packages: >
             build-base
+            bash
             gcc
             g++
             cmake
