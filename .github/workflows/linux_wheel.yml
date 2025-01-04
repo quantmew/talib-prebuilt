@@ -9,24 +9,21 @@ env:
   PIP_NO_VERIFY: 0
   PIP_VERBOSE: 1
   CIBW_BUILD_VERBOSITY: 2
-  CIBW_BEFORE_BUILD: pip install -U setuptools wheel numpy Cython
+  CIBW_BEFORE_BUILD: pip install setuptools==63.4.3&&pip install -U wheel numpy Cython
   CIBW_TEST_REQUIRES: pytest pandas polars
   CIBW_TEST_COMMAND: >
     cd .. &&
     pytest -k "not RSI and not threading" {project}/tests
   CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
-  CIBW_SKIP: "pp* cp36*"
+  CIBW_SKIP: "pp*"
 
 jobs:
   build_x86_64:
-    name: Build Linux x86_64 Python ${{ matrix.python-version }} wheels
+    name: Build Linux x86_64 wheels
     strategy:
       matrix:
         os: ["ubuntu-20.04", "ubuntu-22.04", "ubuntu-24.04"]
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
     runs-on: ${{ matrix.os }}
-    env:
-      PY_VER: ${{matrix.python-version}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -64,7 +61,7 @@ jobs:
             auditwheel repair -w {dest_dir} {wheel}
       - name: Set wheel name
         run: |
-          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-cp${PY_VER//./}-cp${PY_VER//./}-manylinux_${LDD_VERSION//./_}_x86_64.whl" >> $GITHUB_ENV
+          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-manylinux_${LDD_VERSION//./_}_x86_64" >> $GITHUB_ENV
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
