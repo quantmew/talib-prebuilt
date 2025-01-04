@@ -27,8 +27,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install Xcode Command Line Tools
-        run: xcode-select --install
       - name: Make script executable
         run: chmod +x build_macos.sh
       - name: Build TA-Lib
@@ -62,8 +60,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install Xcode Command Line Tools
-        run: xcode-select --install
       - name: Make script executable
         run: chmod +x build_macos.sh
       - name: Build TA-Lib
