@@ -92,12 +92,12 @@ jobs:
             gcc
             g++
             cmake
-          volumes:${{ github.workspace }}: ${{ github.workspace }}
+          volumes: ${{ github.workspace }}:/project
       - name: Make script executable
         run: chmod +x build_linux.sh
       - name: Build TA-Lib
         run: |
-          cd ${{ github.workspace }}&&./build_linux.sh
+          cd /project&&./build_linux.sh
         shell: alpine.sh {0}
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
