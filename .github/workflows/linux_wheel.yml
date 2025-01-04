@@ -75,7 +75,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install Cython==0.29.37&&pip install -U wheel numpy
-      CIBW_BEFORE_TEST: apk add bash&&bash setup_rust.sh&&pip install Cython==0.29.37&&pip install -U maturin
+      CIBW_BEFORE_TEST: apk add bash&&bash setup_rust.sh&&pip install Cython==0.29.37&&pip install -U maturin polars
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
         cd .. &&
