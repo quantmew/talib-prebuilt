@@ -9,13 +9,13 @@ env:
   PIP_NO_VERIFY: 0
   PIP_VERBOSE: 1
   CIBW_BUILD_VERBOSITY: 2
-  CIBW_BEFORE_BUILD: pip install setuptools==63.4.3&&pip install -U wheel numpy Cython
+  CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U wheel numpy Cython
   CIBW_TEST_REQUIRES: pytest pandas polars
   CIBW_TEST_COMMAND: >
     cd .. &&
     pytest -k "not RSI and not threading" {project}/tests
   CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
-  CIBW_SKIP: "pp* cp36*"
+  CIBW_SKIP: "pp*"
 
 jobs:
   build_x86_64:
@@ -27,15 +27,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Get MacOS version
-        run: | 
-          MACOS_VERSION=$(sw_vers -productVersion | cut -d. -f1,2 | tr . _)
-          echo "MACOS_VERSION=${MACOS_VERSION}" >> $GITHUB_ENV
       - name: Install Xcode Command Line Tools
         run: xcode-select --install
-      - name: Install Homebrew
-        run: |
-          /bin/bash
       - name: Make script executable
         run: chmod +x build_macos.sh
       - name: Build TA-Lib
@@ -46,13 +39,17 @@ jobs:
         env:
           CIBW_ARCHS_MACOS: x86_64
           CIBW_ENVIRONMENT_MACOS : >
-            TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER/_build;$LIB"
-            TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER/include;$INCLUDE"
+            TA_LIBRARY_PATH="ta-lib-install/lib"
+            TA_INCLUDE_PATH="ta-lib-install/include"
             PIP_NO_BUILD_ISOLATION=false
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
+            export LD_LIBRARY_PATH="/project/ta-lib-install/lib:$LD_LIBRARY_PATH"
+            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
+            - name: Set wheel name
+      - run: |
+          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-macos_x86_64" >> $GITHUB_ENV
       - name: Upload wheels
         uses: actions/upload-artifact@v4
-        env:
-          WHEEL_NAME: "ta_lib-${TALIB_PY_VER}-macos_${MACOS_VERSION//./_}_x86_64.whl"
         with:
           path: ./wheelhouse/*.whl
           name: ${{ env.WHEEL_NAME }}
@@ -65,15 +62,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Get MacOS version
-        run: | 
-          MACOS_VERSION=$(sw_vers -productVersion | cut -d. -f1,2 | tr . _)
-          echo "MACOS_VERSION=${MACOS_VERSION}" >> $GITHUB_ENV
       - name: Install Xcode Command Line Tools
         run: xcode-select --install
-      - name: Install Homebrew
-        run: |
-          /bin/bash
       - name: Make script executable
         run: chmod +x build_macos.sh
       - name: Build TA-Lib
@@ -84,13 +74,15 @@ jobs:
         env:
           CIBW_ARCHS_MACOS: arm64
           CIBW_ENVIRONMENT_MACOS : >
-            TA_LIBRARY_PATH="${{ github.workspace }}/ta-lib-${{ env.TALIB_C_VER }}/_build"
-            TA_INCLUDE_PATH="${{ github.workspace }}/ta-lib-${{ env.TALIB_C_VER }}/include"
+           TA_LIBRARY_PATH="ta-lib-install/lib"
+            TA_INCLUDE_PATH="ta-lib-install/include"
             PIP_NO_BUILD_ISOLATION=false
-          CIBW_REPAIR_WHEEL_COMMAND_MACOS: "auditwheel repair --lib-sdir ta-lib-${{ env.TALIB_C_VER }}/_build -w {dest_dir} {wheel}"
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
+            export LD_LIBRARY_PATH="/project/ta-lib-install/lib:$LD_LIBRARY_PATH"
+            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
       - name: Set wheel name
         run: |
-          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-macosx_${MACOS_VERSION//./_}_arm64.whl" >> $GITHUB_ENV
+          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-macosx_arm64.whl" >> $GITHUB_ENV
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
