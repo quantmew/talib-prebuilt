@@ -18,10 +18,10 @@ jobs:
         os: ["ubuntu-22.04"]
     runs-on: ${{ matrix.os }}
     env:
-      CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_24
-      CIBW_MANYLINUX_I686_IMAGE: manylinux_2_24
-      CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_24
-      CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_24
+      CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+      CIBW_MANYLINUX_I686_IMAGE: manylinux_2_28
+      CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_28
+      CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_28
       CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U Cython&&pip install -U wheel numpy
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
