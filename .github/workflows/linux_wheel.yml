@@ -19,7 +19,7 @@ env:
     cd .. &&
     pytest -k "not RSI and not threading" {project}/tests
   CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
-  CIBW_SKIP: "pp*"
+  CIBW_SKIP: "pp* cp*-musllinux*"
 
 jobs:
   build_x86_64:
@@ -31,11 +31,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Capture ldd version
-        id: ldd_version
-        run: |
-          LDD_VERSION=$(ldd --version | head -n 1 | awk '{print $NF}')
-          echo "LDD_VERSION=${LDD_VERSION}" >> $GITHUB_ENV
       - name: Install GCC and CMake
         run: |
           sudo apt-get update
@@ -64,7 +59,7 @@ jobs:
             auditwheel repair -w {dest_dir} {wheel}
       - name: Set wheel name
         run: |
-          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-manylinux_${LDD_VERSION//./_}_x86_64" >> $GITHUB_ENV
+          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-manylinux_x86_64" >> $GITHUB_ENV
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
