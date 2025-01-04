@@ -90,6 +90,8 @@ jobs:
           packages: >
             build-base
             bash
+            curl
+            unzip
             gcc
             g++
             cmake
