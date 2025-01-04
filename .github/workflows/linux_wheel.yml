@@ -13,7 +13,6 @@ env:
   CIBW_MANYLINUX_I686_IMAGE: manylinux_2_28
   CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_28
   CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_28
-  CIBW_BEFORE_ALL: apt-get install --reinstall -y libc6
   CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U wheel numpy Cython
   CIBW_TEST_REQUIRES: pytest pandas polars
   CIBW_TEST_COMMAND: >
@@ -59,10 +58,9 @@ jobs:
           CIBW_ENVIRONMENT_LINUX : >
             TA_LIBRARY_PATH="ta-lib-install/lib"
             TA_INCLUDE_PATH="ta-lib-install/include"
-            LD_LIBRARY_PATH="ta-lib-install/lib"
             PIP_NO_BUILD_ISOLATION=false
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
-            export LD_LIBRARY_PATH="/project/ta-lib-install/lib"
+            export LD_LIBRARY_PATH="/project/ta-lib-install/lib:$LD_LIBRARY_PATH"
             auditwheel repair -w {dest_dir} {wheel}
       - name: Set wheel name
         run: |
