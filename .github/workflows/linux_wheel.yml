@@ -61,7 +61,7 @@ jobs:
             PIP_NO_BUILD_ISOLATION=false
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
             export LD_LIBRARY_PATH="/project/ta-lib-install/lib"
-            auditwheel repair --lib-sdir ta-lib-install/lib -w {dest_dir} {wheel}
+            auditwheel repair -w {dest_dir} {wheel}
       - name: Set wheel name
         run: |
           echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-cp${PY_VER//./}-cp${PY_VER//./}-manylinux_${LDD_VERSION//./_}_x86_64.whl" >> $GITHUB_ENV
