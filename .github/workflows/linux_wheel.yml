@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-22.04"]
-    runs-on: self-hosted
+    runs-on: ${{ matrix.os }}
     env:
       CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
       CIBW_MANYLINUX_I686_IMAGE: manylinux_2_28
@@ -72,7 +72,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-22.04"]
-    runs-on: self-hosted
+    runs-on: ${{ matrix.os }}
     env:
       CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install Cython==0.29.37&&pip install -U wheel numpy
       CIBW_BEFORE_TEST: apk add bash&&bash setup_rust.sh&&. "$HOME/.cargo/env"&&pip install Cython==0.29.37&&pip install -U maturin&&pip install -U polars
