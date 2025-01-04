@@ -95,9 +95,14 @@ jobs:
           volumes: ${{ github.workspace }}:/project
       - name: Make script executable
         run: chmod +x build_linux.sh
+      - name: Run script inside Alpine chroot as the default user (unprivileged)
+        run: |
+          pwd
+          ls -la  # as you would expect, you're in your workspace directory
+        shell: alpine.sh {0}
       - name: Build TA-Lib
         run: |
-          cd /project&&./build_linux.sh
+          ./build_linux.sh
         shell: alpine.sh {0}
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
