@@ -18,10 +18,10 @@ jobs:
         os: ["ubuntu-22.04"]
     runs-on: ${{ matrix.os }}
     env:
-      CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
-      CIBW_MANYLINUX_I686_IMAGE: manylinux_2_28
-      CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_28
-      CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_28
+      CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_24
+      CIBW_MANYLINUX_I686_IMAGE: manylinux_2_24
+      CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_24
+      CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_24
       CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U Cython&&pip install -U wheel numpy
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
@@ -81,18 +81,17 @@ jobs:
       CIBW_TEST_SKIP: "*win32 cp37* cp38* cp39*"
       CIBW_SKIP: "pp* cp*-manylinux*"
     steps:
-      - name: Setup latest Alpine Linux
-        uses: jirutka/setup-alpine@v1
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install GCC and CMake
-        run: |
-          apk add gcc g++ cmake
-      - name: Verify GCC and CMake
-        run: |
-          gcc --version
-          g++ --version
-          cmake --version
+      - name: Setup latest Alpine Linux
+        uses: jirutka/setup-alpine@v1
+        with:
+          branch: v3.15
+          packages: >
+            build-base
+            gcc
+            g++
+            cmake
       - name: Make script executable
         run: chmod +x build_linux.sh
       - name: Build TA-Lib
