@@ -92,6 +92,7 @@ jobs:
             gcc
             g++
             cmake
+          volumes:${{ github.workspace }}: ${{ github.workspace }}
       - name: Make script executable
         run: chmod +x build_linux.sh
       - name: Build TA-Lib
