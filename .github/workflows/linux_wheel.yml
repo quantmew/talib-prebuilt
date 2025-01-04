@@ -95,8 +95,8 @@ jobs:
       - name: Make script executable
         run: chmod +x build_linux.sh
       - name: Build TA-Lib
-        run: ./build_linux.sh
-        shell: bash
+        run: bash build_linux.sh
+        shell: alpine.sh {0}
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
         env:
