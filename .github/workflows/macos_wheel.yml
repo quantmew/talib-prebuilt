@@ -9,7 +9,7 @@ env:
   PIP_NO_VERIFY: 0
   PIP_VERBOSE: 1
   CIBW_BUILD_VERBOSITY: 2
-  CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U wheel numpy Cython distutils
+  CIBW_BEFORE_BUILD: python -c "import sys; from subprocess import call; call(['pip', 'install', 'setuptools==58.0.1' if sys.version_info <= (3, 11) else '-U', 'setuptools'])"&&pip install -U wheel numpy Cython
   CIBW_TEST_REQUIRES: pytest pandas polars
   CIBW_TEST_COMMAND: >
     cd .. &&
