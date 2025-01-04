@@ -23,6 +23,7 @@ jobs:
       CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_28
       CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_28
       CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U Cython&&pip install -U wheel numpy
+      CIBW_BEFORE_TEST: pip install -U Cython
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
         cd .. &&
@@ -73,7 +74,7 @@ jobs:
         os: ["ubuntu-22.04"]
     runs-on: ${{ matrix.os }}
     env:
-      CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U Cython&&pip install -U wheel numpy
+      CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U Cython&&pip install -U maturin&&pip install -U wheel numpy
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
         cd .. &&
