@@ -22,7 +22,11 @@ jobs:
       CIBW_MANYLINUX_I686_IMAGE: manylinux_2_28
       CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_28
       CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_28
-      CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install -U Cython&&pip install numpy==1.24.4&&pip install -U wheel
+      CIBW_BEFORE_BUILD: |
+        pip install setuptools==58.0.1
+        pip install -U Cython
+        python -c "import sys; from subprocess import call; call(['pip', 'install', 'numpy==1.24.4' if sys.version_info >= (3, 9) else '-U', 'numpy'])"
+        pip install -U wheel
       CIBW_BEFORE_TEST: pip install -U Cython
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
@@ -74,7 +78,11 @@ jobs:
         os: ["ubuntu-22.04"]
     runs-on: ${{ matrix.os }}
     env:
-      CIBW_BEFORE_BUILD: pip install setuptools==58.0.1&&pip install Cython==0.29.37&&pip install numpy==1.24.4&&pip install -U wheel
+      CIBW_BEFORE_BUILD: |
+        pip install setuptools==58.0.1
+        pip install Cython==0.29.37
+        python -c "import sys; from subprocess import call; call(['pip', 'install', 'numpy==1.24.4' if sys.version_info >= (3, 9) else '-U', 'numpy'])"
+        pip install -U wheel
       CIBW_BEFORE_TEST: apk add bash&&bash setup_rust.sh&&. "$HOME/.cargo/env"&&pip install Cython==0.29.37&&pip install -U maturin&&pip install -U polars
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
