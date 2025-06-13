@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  TALIB_C_VER: 0.4.0
+  TALIB_C_VER: 0.5.0
   TALIB_PY_VER: 0.5.5
   PIP_NO_VERIFY: 0
   PIP_VERBOSE: 1
