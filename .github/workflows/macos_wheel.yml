@@ -35,7 +35,7 @@ jobs:
         run: ./build_macos.sh
         shell: bash
       - name: Build wheels
-        uses: pypa/cibuildwheel@v3.0.0
+        uses: pypa/cibuildwheel@v2.23.3
         env:
           CIBW_ARCHS_MACOS: x86_64
           CIBW_ENVIRONMENT_MACOS : >
@@ -69,7 +69,7 @@ jobs:
         run: ./build_macos.sh
         shell: bash
       - name: Build wheels
-        uses: pypa/cibuildwheel@v3.0.0
+        uses: pypa/cibuildwheel@v2.23.3
         env:
           CIBW_ARCHS_MACOS: arm64
           CIBW_ENVIRONMENT_MACOS : >
