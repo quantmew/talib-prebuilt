@@ -83,3 +83,35 @@ jobs:
         with:
           path: ./wheelhouse/*.whl
           name: ${{ env.WHEEL_NAME }}
+  build_arm64:
+    name: Build Windows arm64 wheels
+    strategy:
+      matrix:
+        os: ["windows-11-arm"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+      - name: Set up MSVC for arm
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: arm64
+      - name: Build TA-Lib C library
+        run: build_windows.cmd
+        shell: cmd
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.3
+        env:
+          CIBW_ARCHS_WINDOWS: ARM64
+          CIBW_ENVIRONMENT_WINDOWS: >
+            TA_LIBRARY_PATH="ta-lib-$TALIB_C_VER\\_build;$LIB"
+            TA_INCLUDE_PATH="ta-lib-$TALIB_C_VER\\include;$INCLUDE"
+            PIP_NO_BUILD_ISOLATION=false
+      - name: Set wheel name
+        run: |
+          echo ("WHEEL_NAME=" + "ta_lib-" + $env:TALIB_PY_VER + "-arm64") >> $env:GITHUB_ENV
+      - name: Upload wheel
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./wheelhouse/*.whl
+          name: ${{ env.WHEEL_NAME }}
