@@ -23,11 +23,7 @@ jobs:
       CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
       CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_28
       CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_28
-      CIBW_BEFORE_BUILD: |
-        pip install setuptools==58.0.1
-        pip install -U Cython
-        python3 -c 'import sys; exit(0) if f"{sys.version_info.major}.{sys.version_info.minor}" in ["3.6", "3.7", "3.8"] else exit(1)' && pip3 install numpy==1.26.4 || pip3 install numpy --upgrade
-        pip install -U wheel
+      CIBW_BEFORE_BUILD: python requirements_install.py --arch x86_64
       CIBW_BEFORE_TEST: pip install -U Cython
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
@@ -79,11 +75,7 @@ jobs:
         os: ["ubuntu-22.04"]
     runs-on: ${{ matrix.os }}
     env:
-      CIBW_BEFORE_BUILD: |
-        pip install setuptools==58.0.1
-        pip install Cython==0.29.37
-        python3 -c 'import sys; exit(0) if f"{sys.version_info.major}.{sys.version_info.minor}" in ["3.6", "3.7", "3.8"] else exit(1)' && pip3 install numpy==1.26.4 || pip3 install numpy --upgrade
-        pip install -U wheel
+      CIBW_BEFORE_BUILD: python requirements_install.py --arch x86_64
       CIBW_BEFORE_TEST: apk add bash&&bash setup_rust.sh&&. "$HOME/.cargo/env"&&pip install Cython==0.29.37&&pip install -U maturin&&pip install -U polars
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
@@ -133,8 +125,8 @@ jobs:
         with:
           path: ./wheelhouse/*.whl
           name: ${{ env.WHEEL_NAME }}
-  build_manylinux_arm64:
-    name: Build ManyLinux arm64 wheels
+  build_manylinux_aarch64:
+    name: Build ManyLinux aarch64 wheels
     strategy:
       matrix:
         os: ["ubuntu-24.04-arm"]
@@ -145,11 +137,7 @@ jobs:
       CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
       CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux_2_28
       CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux_2_28
-      CIBW_BEFORE_BUILD: |
-        pip install setuptools==58.0.1
-        pip install -U Cython
-        python3 -c 'import sys; exit(0) if f"{sys.version_info.major}.{sys.version_info.minor}" in ["3.6", "3.7", "3.8"] else exit(1)' && pip3 install numpy==1.26.4 || pip3 install numpy --upgrade
-        pip install -U wheel
+      CIBW_BEFORE_BUILD: python requirements_install.py --arch aarch64
       CIBW_BEFORE_TEST: pip install -U Cython
       CIBW_TEST_REQUIRES: pytest pandas polars
       CIBW_TEST_COMMAND: >
