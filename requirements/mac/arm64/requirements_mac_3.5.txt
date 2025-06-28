@@ -1,0 +1,4 @@
+setuptools==58.0.1
+wheel
+numpy
+Cython

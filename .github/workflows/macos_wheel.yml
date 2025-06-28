@@ -9,9 +9,6 @@ env:
   PIP_NO_VERIFY: 0
   PIP_VERBOSE: 1
   CIBW_BUILD_VERBOSITY: 2
-  CIBW_BEFORE_BUILD: |
-    python -c "import sys; from subprocess import call; call(['pip', 'install', 'setuptools==58.0.1' if sys.version_info <= (3, 11) else '-U', 'setuptools'])"
-    pip install -U wheel numpy Cython
   CIBW_TEST_REQUIRES: pytest pandas polars
   CIBW_TEST_COMMAND: >
     cd .. &&
@@ -38,6 +35,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.23.3
         env:
           CIBW_ARCHS_MACOS: x86_64
+          CIBW_BEFORE_BUILD: python requirements_install.py --arch x86_64
           CIBW_ENVIRONMENT_MACOS : >
             TA_LIBRARY_PATH="ta-lib-install/lib"
             TA_INCLUDE_PATH="ta-lib-install/include"
@@ -72,6 +70,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.23.3
         env:
           CIBW_ARCHS_MACOS: arm64
+          CIBW_BEFORE_BUILD: python requirements_install.py --arch arm64
           CIBW_ENVIRONMENT_MACOS : >
             TA_LIBRARY_PATH="ta-lib-install/lib"
             TA_INCLUDE_PATH="ta-lib-install/include"
