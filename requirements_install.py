@@ -78,32 +78,32 @@ def install_requirements(arch: str):
             print("Unsupported Python version. Please use Python 3.5 or higher.")
             sys.exit(1)
     elif sys.platform == "darwin":
-        requirements_path = os.path.join("requirements", "mac", arch, "requirements_mac.txt")
+        requirements_path = os.path.join("requirements", "macos", arch)
         if python_version.startswith("3.4"):
             print("Python 3.4 is not supported. Please use Python 3.5 or higher.")
             sys.exit(1)
         elif python_version.startswith("3.5"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.5.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.5.txt")
         elif python_version.startswith("3.6"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.6.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.6.txt")
         elif python_version.startswith("3.7"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.7.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.7.txt")
         elif python_version.startswith("3.8"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.8.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.8.txt")
         elif python_version.startswith("3.9"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.9.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.9.txt")
         elif python_version.startswith("3.10"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.10.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.10.txt")
         elif python_version.startswith("3.11"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.11.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.11.txt")
         elif python_version.startswith("3.12"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.12.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.12.txt")
         elif python_version.startswith("3.13"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.13.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.13.txt")
         elif python_version.startswith("3.14"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.14.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.14.txt")
         elif python_version.startswith("3.15"):
-            requirements_file = os.path.join(requirements_path, "requirements_mac_3.15.txt")
+            requirements_file = os.path.join(requirements_path, "requirements_macos_3.15.txt")
         else:
             print("Unsupported Python version. Please use Python 3.5 or higher.")
             sys.exit(1)
