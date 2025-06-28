@@ -233,7 +233,7 @@ jobs:
             auditwheel repair -w {dest_dir} {wheel}
       - name: Set wheel name
         run: |
-          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-musllinux_x86_64" >> $GITHUB_ENV
+          echo "WHEEL_NAME=ta_lib-${{env.TALIB_PY_VER}}-musllinux_aarch64" >> $GITHUB_ENV
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
