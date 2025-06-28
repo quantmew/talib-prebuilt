@@ -78,7 +78,7 @@ def install_requirements(arch: str):
             print("Unsupported Python version. Please use Python 3.5 or higher.")
             sys.exit(1)
     elif sys.platform == "darwin":
-        requirements_file = os.path.join("requirements", "mac", arch, "requirements_mac.txt")
+        requirements_path = os.path.join("requirements", "mac", arch, "requirements_mac.txt")
         if python_version.startswith("3.4"):
             print("Python 3.4 is not supported. Please use Python 3.5 or higher.")
             sys.exit(1)
@@ -108,14 +108,12 @@ def install_requirements(arch: str):
             print("Unsupported Python version. Please use Python 3.5 or higher.")
             sys.exit(1)
     elif sys.platform.startswith("linux"):
-        requirements_file = os.path.join("requirements", "linux", arch, "requirements_linux.txt")
-
         if is_alpine_linux():
-            requirements_path = os.path.join("requirements", "linux", arch, "alpine")
             linux_type = "musllinux"
         else:
-            requirements_path = os.path.join("requirements", "linux", arch, "manylinux")
             linux_type = "manylinux"
+
+        requirements_path = os.path.join("requirements", "linux", arch, linux_type)
 
         if python_version.startswith("3.4"):
             print("Python 3.4 is not supported. Please use Python 3.5 or higher.")
