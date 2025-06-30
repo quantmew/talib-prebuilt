@@ -4,9 +4,11 @@ Build [TA-Lib](https://github.com/ta-lib/ta-lib-python) wheels for Python using 
 Supported platforms:
 - Windows 64-bit
 - Windows 32-bit
+- Windows ARM64
 - macOS x86_64
 - macOS arm64
 - Linux 64-bit
+- Linux ARM64
 
 Supported Python versions:
 - 3.6
